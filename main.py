@@ -1,0 +1,61 @@
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+import datetime
+import pandas
+from pprint import pprint
+from collections import defaultdict
+
+
+now = datetime.datetime.now()
+event1 = now.year
+event2 = 1920
+delta = event1-event2
+
+
+def get_year_word_form(delta):
+    plural_form = 'лет'
+    single_form = 'год'
+    few_form = 'года'
+    few_set = {2, 3, 4}
+    if 11 <= delta % 100  <= 14:
+        return plural_form
+    if delta % 10 == 1:
+        return single_form
+    elif delta % 10 in few_set:
+        return few_form
+    else:
+        return plural_form
+
+
+excel_data_df = pandas.read_excel(
+    'wine3.xlsx', 
+    sheet_name='Вино', 
+    usecols=['Категория', 'Название','Сорт', 'Цена', 'Картинка', 'Акция'],
+    na_values=['N/A', 'NA'],
+    keep_default_na=False
+)
+
+wines = excel_data_df.to_dict(orient='records')
+wine_categories = defaultdict(list)
+for wine in wines:
+    wine_categories[wine['Категория']].append(wine)
+
+
+env = Environment(
+    loader=FileSystemLoader('.'),
+    autoescape=select_autoescape(['html', 'xml'])
+)
+
+template = env.get_template('template.html')
+
+rendered_page = template.render(
+    wine_categories=wine_categories,
+    age_of_the_winery=delta,
+    year=get_year_word_form(delta)
+)
+
+with open('index.html', 'w', encoding="utf8") as file:
+    file.write(rendered_page)
+
+server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
+server.serve_forever()
