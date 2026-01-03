@@ -3,6 +3,8 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
 import pandas
 from collections import defaultdict
+import argparse
+import os
 
 
 def get_year_word_form(delta):
@@ -21,13 +23,20 @@ def get_year_word_form(delta):
 
 
 def main():
+    directory = os.path.join(os.path.dirname(__file__), 'wine3.xlsx')
+    parser = argparse.ArgumentParser(description="""Позволяет указать другой 
+                                    путь к файлу""")
+    parser.add_argument('--directory', type=str, default=directory)
+    args = parser.parse_args()
+    excel_path = args.directory
+
     now = datetime.datetime.now()
     event1 = now.year
     event2 = 1920
     delta = event1-event2
 
     excel_data_df = pandas.read_excel(
-        'wine3.xlsx', 
+        excel_path, 
         sheet_name='Вино', 
         usecols=['Категория', 'Название','Сорт', 'Цена', 'Картинка', 'Акция'],
         na_values=['N/A', 'NA'],
