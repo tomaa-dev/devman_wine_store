@@ -28,7 +28,7 @@ def main():
                                     а затем запускает простой HTTP-сервер для локального просмотра.""")
     parser.add_argument('--directory', type=str, default=default_dir, help='Позволяет указать другой путь к файлу')
     args = parser.parse_args()
-    directory = args.default_dir
+    directory = args.directory
 
     now = datetime.datetime.now()
     event1 = now.year
@@ -36,8 +36,7 @@ def main():
     delta = event1-event2
 
     excel_data_df = pandas.read_excel(
-        excel_path, 
-        sheet_name='Вино', 
+        directory,
         usecols=['Категория', 'Название','Сорт', 'Цена', 'Картинка', 'Акция'],
         na_values=['N/A', 'NA'],
         keep_default_na=False
