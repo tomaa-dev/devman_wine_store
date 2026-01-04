@@ -24,9 +24,9 @@ def get_year_word_form(delta):
 
 def main():
     directory = os.path.join(os.path.dirname(__file__), 'wine3.xlsx')
-    parser = argparse.ArgumentParser(description="""Позволяет указать другой 
-                                    путь к файлу""")
-    parser.add_argument('--directory', type=str, default=directory)
+    parser = argparse.ArgumentParser(description="""Программа читает данные о винах из Excel-файла, подставляет их в Jinja2-шаблон и генерирует статическую страницу index.html, 
+                                    а затем запускает простой HTTP-сервер для локального просмотра.""")
+    parser.add_argument('--directory', type=str, default=directory, help='Позволяет указать другой путь к файлу')
     args = parser.parse_args()
     excel_path = args.directory
 
