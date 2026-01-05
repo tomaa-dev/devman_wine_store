@@ -26,9 +26,9 @@ def main():
     default_dir = os.path.join(os.path.dirname(__file__), 'wine3.xlsx')
     parser = argparse.ArgumentParser(description="""Программа читает данные о винах из Excel-файла, подставляет их в Jinja2-шаблон и генерирует статическую страницу index.html, 
                                     а затем запускает простой HTTP-сервер для локального просмотра.""")
-    parser.add_argument('--directory', type=str, default=default_dir, help='Позволяет указать другой путь к файлу')
+    parser.add_argument('--excel-path', type=str, default=default_dir, help='Позволяет указать другой путь к Excel-файлу')
     args = parser.parse_args()
-    directory = args.directory
+    excel_path = args.excel_path
 
     now = datetime.datetime.now()
     event1 = now.year
@@ -36,7 +36,7 @@ def main():
     delta = event1-event2
 
     excel_data_df = pandas.read_excel(
-        directory,
+        excel_path,
         usecols=['Категория', 'Название','Сорт', 'Цена', 'Картинка', 'Акция'],
         na_values=['N/A', 'NA'],
         keep_default_na=False
