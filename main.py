@@ -12,7 +12,7 @@ def get_year_word_form(delta):
     single_form = 'год'
     few_form = 'года'
     few_set = {2, 3, 4}
-    if 11 <= delta % 100  <= 14:
+    if 11 <= delta % 100 <= 14:
         return plural_form
     if delta % 10 == 1:
         return single_form
@@ -33,7 +33,7 @@ def main():
     now = datetime.datetime.now()
     event1 = now.year
     event2 = 1920
-    delta = event1-event2
+    delta = event1 - event2
 
     excel_data_df = pandas.read_excel(
         excel_path,
