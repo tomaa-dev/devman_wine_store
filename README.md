@@ -19,7 +19,7 @@ python main.py
 ```
 Запустите сайт командой, указав путь к xlsx:
 ```
-python3 main.py --directory C:\path\to\wine3.xlsx
+python main.py --excel-path C:\path\to\wine3.xlsx
 ```
 
 3) Перейдите на сайт по адресу [http://127.0.0.1:8000](http://127.0.0.1:8000).
